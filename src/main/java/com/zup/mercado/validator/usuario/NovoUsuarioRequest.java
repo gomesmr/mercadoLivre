@@ -1,4 +1,4 @@
-package com.zup.mercado.cliente;
+package com.zup.mercado.validator.usuario;
 
 
 import javax.validation.constraints.Email;
@@ -7,19 +7,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class NovoClienteRequest {
+public class NovoUsuarioRequest {
     private @NotBlank @Email String email;
     private @Size(min = 6, max = 16) @NotNull @NotBlank String senha;
     private @NotNull LocalDateTime dataHoraCadastro;
 
-    public NovoClienteRequest(String email, String senha, LocalDateTime dataHoraCadastro) {
+    public NovoUsuarioRequest(String email, String senha, LocalDateTime dataHoraCadastro) {
         this.email = email;
         this.senha = senha;
         this.dataHoraCadastro = LocalDateTime.now();
     }
 
-    public Cliente toModel(){
-        return new Cliente(this.email, this.senha, this.dataHoraCadastro);
+    public Usuario toModel(){
+        return new Usuario(this.email, this.senha, this.dataHoraCadastro);
     }
 
     public String getEmail() {

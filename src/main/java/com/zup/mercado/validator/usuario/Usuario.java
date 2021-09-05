@@ -1,4 +1,4 @@
-package com.zup.mercado.cliente;
+package com.zup.mercado.validator.usuario;
 
 import com.sun.istack.NotNull;
 import org.springframework.util.Assert;
@@ -13,16 +13,16 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-public class Cliente {
+public class Usuario {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private @NotBlank @Email String email;
     private @NotBlank @Size(min = 6) String senha;
     private @NotNull LocalDateTime dataHoraCadastro;
 
     @Deprecated
-    public Cliente() {}
+    public Usuario() {}
 
-    public Cliente(String email, String senha, LocalDateTime dataHoraCadastro) {
+    public Usuario(String email, String senha, LocalDateTime dataHoraCadastro) {
         Assert.hasLength(email, "O e-mail é obrigatório");
         Assert.hasLength(senha, "A senha é obrigatória");
 
