@@ -1,9 +1,15 @@
 package com.zup.mercado.config.security.usuarios;
+import com.zup.mercado.config.validator.UniqueValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,9 +24,12 @@ public class Usuario implements UserDetails {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
+	@NotBlank @Email
 	private String email;
+
 	private String senha;
+	private LocalDateTime dataHoraCadastro;
+
 	private boolean contaNaoExpirada = true;
 	private boolean contaNaoBloqueada = true;
 	private boolean credencialNaoExpirada = true;
@@ -45,19 +54,17 @@ public class Usuario implements UserDetails {
 		perfil.getUsuarios().add(this);
 	}
 
-	/**
-	 * para autenticção é preciso ter o construtor padrão aqui.
-	 * Como eu preciso de construtores com parâmetros para as transações de request
-	 * tive que definir um construtor sem parâmetros ...
-	 */
+	@Deprecated
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nome, String email, String senha, boolean contaNaoExpirada, boolean  contaNaoBloqueada, boolean  credencialNaoExpirada, boolean  contaAtiva) {
+	public Usuario(Long id, String email, String senha, LocalDateTime dataHoraCadastro,
+				   boolean contaNaoExpirada, boolean  contaNaoBloqueada,
+				   boolean  credencialNaoExpirada, boolean  contaAtiva) {
 		this.id = id;
-		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		this.dataHoraCadastro = dataHoraCadastro;
 
 		this.contaNaoExpirada = contaNaoExpirada;
 		this.contaNaoBloqueada = contaNaoBloqueada;
@@ -65,9 +72,8 @@ public class Usuario implements UserDetails {
 		this.contaAtiva = contaAtiva;
 	}
 
-	public Usuario(Long id, String nome, String email, String senha) {
-		this.id = id;
-		this.nome = nome;
+	public Usuario(String email, String senha) {
+		Assert.hasLength(email, "O e-mail é obrigatório");
 		this.email = email;
 		this.senha = senha;
 
@@ -102,33 +108,14 @@ public class Usuario implements UserDetails {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public  LocalDateTime getDataHoraCadastro() {
+		return dataHoraCadastro;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> 	getAuthorities() {

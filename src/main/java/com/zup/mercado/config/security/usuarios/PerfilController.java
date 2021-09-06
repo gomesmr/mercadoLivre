@@ -17,12 +17,12 @@ import java.net.URI;
 public class PerfilController {
 
     @Autowired
-    PerfilRepository repo;
+    PerfilRepository perfilRepository;
 
     @PostMapping
     public ResponseEntity<PerfilResponse> insere(@RequestBody @Valid PerfilRequest perfilRequest, UriComponentsBuilder ucb){
         Perfil perfil  = perfilRequest.toModel();
-        Perfil perfilSalvo = repo.save(perfil);
+        Perfil perfilSalvo = perfilRepository.save(perfil);
         PerfilResponse perfilResponse = new PerfilResponse(perfilSalvo);
         URI uri = ucb.path("perfis/{id}").buildAndExpand(perfilResponse.getId()).toUri();
         return ResponseEntity.created(uri).body(perfilResponse);
@@ -31,7 +31,7 @@ public class PerfilController {
     @PostMapping(path = "/concedeperfil")
     public ResponseEntity<PerfilResponse> concedeperfil(@RequestBody @Valid PerfilRequest perfilRequest, UriComponentsBuilder ucb){
         Perfil perfil  = perfilRequest.toModel();
-        Perfil perfilSalvo = repo.save(perfil);
+        Perfil perfilSalvo = perfilRepository.save(perfil);
         PerfilResponse perfilResponse = new PerfilResponse(perfilSalvo);
         URI uri = ucb.path("perfis/{id}").buildAndExpand(perfilResponse.getId()).toUri();
         return ResponseEntity.created(uri).body(perfilResponse);
