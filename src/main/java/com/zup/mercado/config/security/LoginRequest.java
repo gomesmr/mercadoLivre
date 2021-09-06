@@ -3,27 +3,28 @@ package com.zup.mercado.config.security;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class LoginRequest {
-    private String login;
-    private String senha;
 
-    public String getLogin() {
-        return login;
-    }
+	private String email;
+	private String senha;
 
-    public String getSenha() {
-        return senha;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+	public String getSenha() {
+		return senha;
+	}
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public UsernamePasswordAuthenticationToken converter() {
-        return new UsernamePasswordAuthenticationToken(login, senha);
-    }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public UsernamePasswordAuthenticationToken converter() {
+		return new UsernamePasswordAuthenticationToken(email, senha);
+	}
 
 }

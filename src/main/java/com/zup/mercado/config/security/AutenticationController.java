@@ -1,4 +1,6 @@
 package com.zup.mercado.config.security;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,24 +17,24 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 public class AutenticationController {
+	
+	@Autowired
+	private AuthenticationManager authManager;
+	
+	@Autowired
+	private TokenService tokenService;
 
-    @Autowired
-    private AuthenticationManager authManager;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @PostMapping
-    public ResponseEntity<LoginResponse> autenticar(@RequestBody @Valid LoginRequest loginRequest) {
-        UsernamePasswordAuthenticationToken dadosLogin = loginRequest.converter();
-
-        try {
-            Authentication authentication = authManager.authenticate(dadosLogin);
-            String token = tokenService.gerarToken(authentication);
-            return ResponseEntity.ok(new LoginResponse(token, "Bearer"));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
+	@PostMapping
+	public ResponseEntity<LoginResponse> autenticar(@RequestBody @Valid LoginRequest form) {
+		UsernamePasswordAuthenticationToken dadosLogin = form.converter();
+		
+		try {
+			Authentication authentication = authManager.authenticate(dadosLogin);
+			String token = tokenService.gerarToken(authentication);
+			return ResponseEntity.ok(new LoginResponse(token, "Bearer"));
+		} catch (AuthenticationException e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
 }
