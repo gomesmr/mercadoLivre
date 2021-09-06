@@ -1,4 +1,4 @@
-package com.zup.mercado.validator;
+package com.zup.mercado.config.validator;
 
 public class ErrosDadosResponse {
     private String campo;

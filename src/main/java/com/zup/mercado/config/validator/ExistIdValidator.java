@@ -1,4 +1,4 @@
-package com.zup.mercado.validator;
+package com.zup.mercado.config.validator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -1,4 +1,4 @@
-package com.zup.mercado.validator;
+package com.zup.mercado.config.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,4 +1,4 @@
-package com.zup.mercado.validator.usuario;
+package com.zup.mercado.config.security.usuario;
 
 
 import javax.validation.constraints.Email;

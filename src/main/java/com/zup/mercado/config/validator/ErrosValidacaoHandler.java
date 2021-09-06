@@ -1,4 +1,4 @@
-package com.zup.mercado.validator;
+package com.zup.mercado.config.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
