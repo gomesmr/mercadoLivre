@@ -48,14 +48,22 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
-				.antMatchers(HttpMethod.POST, "/perfis").permitAll()
-				.antMatchers(HttpMethod.POST, "/categorias").permitAll()
-				.antMatchers(HttpMethod.POST, "/auth").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/perfis").authenticated()
+				.antMatchers(HttpMethod.POST, "/categorias").authenticated()
 				.antMatchers(HttpMethod.POST, "/concedeperfil").hasAnyAuthority("TEST")
-		.anyRequest().authenticated()
-		.and().csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new AutenticationTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+				.anyRequest().authenticated()
+		.and()
+				.cors()
+		.and()
+				.csrf().disable()
+		.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and()
+				.addFilterBefore(new AutenticationTokenFilter(tokenService, usuarioRepository),
+						UsernamePasswordAuthenticationFilter.class)
+
+		;
 	}
 	
 	
