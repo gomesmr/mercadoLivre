@@ -8,8 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-public class ProdutosResponse {
+public class ProdutoResponse {
     private Long id;
     private String nome;
     private Integer quantidade;
@@ -17,8 +18,9 @@ public class ProdutosResponse {
     private BigDecimal valor;
     private Categoria categoria;
     private Usuario proprietario;
+    private LocalDateTime instanteCadastro;
 
-    public ProdutosResponse(Produto produto) {
+    public ProdutoResponse(Produto produto) {
         this.id = produto.getId();
         this.nome = produto.getNome();
         this.quantidade = produto.getQuantidade();
@@ -26,6 +28,7 @@ public class ProdutosResponse {
         this.valor = produto.getValor();
         this.categoria = produto.getCategoria();
         this.proprietario = produto.getProrietario();
+        this.instanteCadastro = produto.getInstanteCadastro();
     }
 
     public Long getId() {
@@ -82,5 +85,13 @@ public class ProdutosResponse {
 
     public void setProprietario(Usuario proprietario) {
         this.proprietario = proprietario;
+    }
+
+    public LocalDateTime getInstanteCadastro() {
+        return instanteCadastro;
+    }
+
+    public void setInstanteCadastro(LocalDateTime instanteCadastro) {
+        this.instanteCadastro = instanteCadastro;
     }
 }

@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +38,7 @@ public class ProdutoRequest {
     @Size(min = 3)
     @Valid
     private List<NovaCaracteristicaRequest> caracteristicas = new ArrayList<>();
+    private LocalDateTime instanteCadastro = LocalDateTime.now();
 
     public ProdutoRequest(String nome, Integer quantidade, String descricao,
                           BigDecimal valor, Long idCategoria,
@@ -58,16 +60,16 @@ public class ProdutoRequest {
                 ", valor=" + valor +
                 ", idCategoria=" + idCategoria +
                 ", caracteristicas=" + caracteristicas +
+                ", instanteCadastro=" + instanteCadastro +
                 '}';
     }
 
     public Produto toModel(EntityManager manager, Usuario proprietario) {
-        System.out.println("ID da Categoria" + idCategoria);
         Categoria categoria = manager.find(Categoria.class, idCategoria);
         Assert.notNull(categoria, "O id da categoria é inválido");
 
         return new Produto(nome, quantidade, descricao, valor,
-                categoria, proprietario, caracteristicas);
+                categoria, proprietario, caracteristicas, instanteCadastro);
     }
 
     public List<NovaCaracteristicaRequest> getCaracteristicas() {

@@ -3,13 +3,13 @@ package com.zup.mercado.produtos;
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.validator.UniqueValue;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ public class Produto {
     @Column(unique = true)
     private @NotBlank String nome;
     private @NotNull @Positive Integer quantidade;
-    private @NotBlank String descricao;
+    private @NotBlank @Size(min = 30, max = 1000) String descricao;
     private @NotNull @Positive BigDecimal valor;
     @ManyToOne
     @JoinColumn(name = "idCategoria")
@@ -31,6 +31,7 @@ public class Produto {
     private Usuario prorietario;
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
+    private LocalDateTime instanteCadastro;
 
     @Deprecated
     public Produto() {
@@ -39,7 +40,8 @@ public class Produto {
     public Produto
             (String nome, Integer quantidade, String descricao,
              BigDecimal valor, Categoria categoria, Usuario prorietario,
-             List<NovaCaracteristicaRequest> caracteristicas) {
+             List<NovaCaracteristicaRequest> caracteristicas,
+             LocalDateTime instanteCadastro) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.descricao = descricao;
@@ -50,6 +52,7 @@ public class Produto {
                 .stream().map(caracteristica -> caracteristica.toModel(this))
                 .collect(Collectors.toSet()));
         Assert.isTrue(this.caracteristicas.size() >= 3, "Todo produto precisa ter no mínimo 3 ou mais características.");
+        this.instanteCadastro = instanteCadastro;
 
     }
 
@@ -64,6 +67,7 @@ public class Produto {
                 ", categoria=" + categoria +
                 ", prorietario=" + prorietario +
                 ", caracteristicas=" + caracteristicas +
+                ", instanteCadastro=" + instanteCadastro +
                 '}';
     }
 
@@ -93,6 +97,14 @@ public class Produto {
 
     public Usuario getProrietario() {
         return prorietario;
+    }
+
+    public Set<CaracteristicaProduto> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public LocalDateTime getInstanteCadastro() {
+        return instanteCadastro;
     }
 
     @Override

@@ -5,13 +5,13 @@ import com.zup.mercado.config.security.usuarios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -22,7 +22,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @InitBinder
     public void init(WebDataBinder webDataBinder){
@@ -31,16 +31,16 @@ public class ProdutoController {
 
     /**
      * Tipo de retorno do método
-     * ResponseEntity<ProdutosResponse>
+     * ResponseEntity<ProdutoResponse>
      * @param request
      */
     @PostMapping
-    public  ResponseEntity<ProdutosResponse> cadastrar(@RequestBody @Valid ProdutoRequest request){
-        Usuario proprietario = usuarioRepository.findByEmail("gomes.mr@gmail.com").get();
+    public  ResponseEntity<ProdutoResponse> cadastrar(@RequestBody @Valid ProdutoRequest request){
+        Usuario proprietario = (Usuario) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
         Produto produto = request.toModel(manager, proprietario);
-        //return produto.toString();
         Produto novoProduto = produtoRepository.save(produto);
-        ProdutosResponse produtosResponse = new ProdutosResponse(novoProduto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(produtosResponse);
+        ProdutoResponse produtoResponse = new ProdutoResponse(novoProduto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoResponse);
     }
 }
