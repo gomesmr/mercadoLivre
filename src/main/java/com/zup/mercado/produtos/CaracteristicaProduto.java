@@ -3,14 +3,15 @@ package com.zup.mercado.produtos;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class CaracteristicaProduto {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-    private @NotBlank String nome;
-    private @NotBlank String descricao;
+    private String nome;
+    private String descricao;
     @ManyToOne
-    private @NotBlank @Valid Produto produto;
+    private @Valid Produto produto;
 
     public CaracteristicaProduto(String nome, String descricao, Produto produto) {
         this.nome = nome;

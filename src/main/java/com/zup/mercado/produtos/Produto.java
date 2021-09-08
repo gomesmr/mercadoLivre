@@ -2,6 +2,7 @@ package com.zup.mercado.produtos;
 
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
+import com.zup.mercado.config.validator.UniqueValue;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private @NotBlank String nome;
     private @NotNull @Positive Integer quantidade;
     private @NotBlank String descricao;

@@ -3,6 +3,7 @@ package com.zup.mercado.produtos;
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.validator.ExistsId;
+import com.zup.mercado.config.validator.UniqueValue;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ProdutoRequest {
+    @UniqueValue(domainClass = Produto.class, fieldName = "nome", message = "O nome do produto não pode se repetido")
     @NotBlank
     private String nome;
     @Positive

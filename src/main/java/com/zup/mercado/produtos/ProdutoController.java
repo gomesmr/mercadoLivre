@@ -35,13 +35,12 @@ public class ProdutoController {
      * @param request
      */
     @PostMapping
-    public  String cadastrar(@RequestBody @Valid ProdutoRequest request){
+    public  ResponseEntity<ProdutosResponse> cadastrar(@RequestBody @Valid ProdutoRequest request){
         Usuario proprietario = usuarioRepository.findByEmail("gomes.mr@gmail.com").get();
         Produto produto = request.toModel(manager, proprietario);
-        return produto.toString();
-
-//        Produto novoProduto = produtoRepository.save(produto);
-//        ProdutosResponse produtosResponse = new ProdutosResponse(novoProduto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(produtosResponse);
+        //return produto.toString();
+        Produto novoProduto = produtoRepository.save(produto);
+        ProdutosResponse produtosResponse = new ProdutosResponse(novoProduto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtosResponse);
     }
 }
