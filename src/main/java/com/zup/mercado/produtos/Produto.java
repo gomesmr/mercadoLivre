@@ -1,9 +1,8 @@
 package com.zup.mercado.produtos;
 
+import ch.qos.logback.core.util.COWArrayList;
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
-import com.zup.mercado.config.validator.UniqueValue;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -31,6 +30,8 @@ public class Produto {
     private Usuario prorietario;
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private Set<ImagemProduto> imagens = new HashSet<>();
     private LocalDateTime instanteCadastro;
 
     @Deprecated
@@ -118,5 +119,16 @@ public class Produto {
     @Override
     public int hashCode() {
         return Objects.hash(nome);
+    }
+
+    public void associaImagens (Set<String> links){
+        Set<ImagemProduto> imagens = links.stream()
+                .map(link -> new ImagemProduto (this, link))
+                .collect(Collectors.toSet());
+        this.imagens.addAll(imagens);
+    }
+
+    public boolean pertenceAoUsuario(Usuario possivelProprietario) {
+        return this.prorietario.equals(possivelProprietario);
     }
 }

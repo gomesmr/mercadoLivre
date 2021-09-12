@@ -1,5 +1,6 @@
 package com.zup.mercado.produtos;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.security.usuarios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -23,8 +29,10 @@ public class ProdutoController {
     private ProdutoRepository produtoRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private Uploader uploaderFake;
 
-    @InitBinder
+    @InitBinder(value = "ProdutoRequest")
     public void init(WebDataBinder webDataBinder){
         webDataBinder.addValidators(new ProibeCaracteristicaComNomeIgualValidadtor());
     }
@@ -43,4 +51,47 @@ public class ProdutoController {
         ProdutoResponse produtoResponse = new ProdutoResponse(novoProduto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoResponse);
     }
+
+    @PostMapping(value = "/{id}/imagens")
+    @Transactional
+    public void adicionaImagens (@PathVariable("id") Long id, @Valid NovasImagensRequest request){
+        /**
+         * 1) enviar imagens para onde elas vão ficar
+         * 2) pegar os links de todas as imagens
+         * 3) preciso carregar o produto
+         * 4) associar esses links com o produto em questão
+         * 5) depois que associar eu preciso atualizar a nova versão do produto
+         */
+        Usuario proprietario = (Usuario) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        Produto produto = produtoRepository.findById(id).get();
+        if (!produto.pertenceAoUsuario(proprietario)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        Set<String> links = uploaderFake.envia(request.getImagens());
+        System.out.println(links);
+
+        produto.associaImagens(links);
+
+        manager.merge(produto);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
