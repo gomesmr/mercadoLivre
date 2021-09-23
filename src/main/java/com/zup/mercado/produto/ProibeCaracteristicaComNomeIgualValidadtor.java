@@ -1,4 +1,4 @@
-package com.zup.mercado.produtos;
+package com.zup.mercado.produto;
 
 import com.sun.xml.bind.v2.TODO;
 import org.springframework.validation.Errors;

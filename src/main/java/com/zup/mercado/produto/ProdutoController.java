@@ -1,6 +1,5 @@
-package com.zup.mercado.produtos;
+package com.zup.mercado.produto;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.security.usuarios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class ProdutoController {
      * @param request
      */
     @PostMapping
-    public  ResponseEntity<ProdutoResponse> cadastrar(@RequestBody @Valid ProdutoRequest request){
+    public  ResponseEntity<ProdutoResponse> cadastrar(@RequestBody @Valid com.zup.mercado.produtos.ProdutoRequest request){
         Usuario proprietario = (Usuario) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         Produto produto = request.toModel(manager, proprietario);
@@ -76,6 +75,17 @@ public class ProdutoController {
 
         manager.merge(produto);
     }
+
+//    @PutMapping ("/{id}")
+//    public ProdutoResponse atualizarProduto(@PathVariable("id") Long id,@RequestBody @Valid ProdutoRequest request){
+//        /**
+//         * 1- verificar se o produto existe
+//         * 2- converter toModel
+//         * 3- Atualizo o BD
+//         */
+//
+//        Produto produto = produtoRepository.findById(id);
+//    }
 }
 
 

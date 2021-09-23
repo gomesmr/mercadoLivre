@@ -1,4 +1,4 @@
-package com.zup.mercado.produtos;
+package com.zup.mercado.produto;
 
 import org.hibernate.validator.constraints.URL;
 

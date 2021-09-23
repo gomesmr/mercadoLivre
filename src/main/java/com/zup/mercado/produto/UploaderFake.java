@@ -1,4 +1,4 @@
-package com.zup.mercado.produtos;
+package com.zup.mercado.produto;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;

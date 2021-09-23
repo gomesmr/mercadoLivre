@@ -1,4 +1,4 @@
-package com.zup.mercado.produtos;
+package com.zup.mercado.produto;
 
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;

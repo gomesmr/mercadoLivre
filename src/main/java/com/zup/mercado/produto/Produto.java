@@ -1,4 +1,4 @@
-package com.zup.mercado.produtos;
+package com.zup.mercado.produto;
 
 import ch.qos.logback.core.util.COWArrayList;
 import com.zup.mercado.categoria.Categoria;
