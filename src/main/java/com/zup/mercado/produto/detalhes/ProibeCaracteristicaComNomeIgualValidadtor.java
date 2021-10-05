@@ -1,6 +1,7 @@
-package com.zup.mercado.produto;
+package com.zup.mercado.produto.detalhes;
 
 import com.sun.xml.bind.v2.TODO;
+import com.zup.mercado.produto.ProdutoRequest;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

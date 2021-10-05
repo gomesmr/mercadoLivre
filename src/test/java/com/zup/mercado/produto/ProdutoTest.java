@@ -2,6 +2,7 @@ package com.zup.mercado.produto;
 
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
+import com.zup.mercado.produto.detalhes.NovaCaracteristicaRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

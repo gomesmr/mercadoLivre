@@ -1,4 +1,4 @@
-package com.zup.mercado.produto;
+package com.zup.mercado.utils;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -6,8 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component

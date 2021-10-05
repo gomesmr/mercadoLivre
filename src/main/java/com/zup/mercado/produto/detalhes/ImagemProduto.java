@@ -1,5 +1,6 @@
-package com.zup.mercado.produto;
+package com.zup.mercado.produto.detalhes;
 
+import com.zup.mercado.produto.Produto;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;

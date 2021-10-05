@@ -4,6 +4,7 @@ import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.validator.ExistsId;
 import com.zup.mercado.config.validator.UniqueValue;
+import com.zup.mercado.produto.detalhes.NovaCaracteristicaRequest;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
 
@@ -40,30 +41,6 @@ public class ProdutoRequest {
     private List<NovaCaracteristicaRequest> caracteristicas = new ArrayList<>();
     private LocalDateTime instanteCadastro = LocalDateTime.now();
 
-    public ProdutoRequest(String nome, Integer quantidade, String descricao,
-                          BigDecimal valor, Long idCategoria,
-                          List<NovaCaracteristicaRequest> caracteristicas) {
-        this.nome = nome;
-        this.quantidade = quantidade;
-        this.descricao = descricao;
-        this.valor = valor;
-        this.idCategoria = idCategoria;
-        this.caracteristicas.addAll(caracteristicas);
-    }
-
-    @Override
-    public String toString() {
-        return "ProdutoRequest{" +
-                "nome='" + nome + '\'' +
-                ", quantidade=" + quantidade +
-                ", descricao='" + descricao + '\'' +
-                ", valor=" + valor +
-                ", idCategoria=" + idCategoria +
-                ", caracteristicas=" + caracteristicas +
-                ", instanteCadastro=" + instanteCadastro +
-                '}';
-    }
-
     public Produto toModel(EntityManager manager, Usuario proprietario) {
         Categoria categoria = manager.find(Categoria.class, idCategoria);
         Assert.notNull(categoria, "O id da categoria é inválido");
@@ -86,5 +63,57 @@ public class ProdutoRequest {
         }
         return resultados;
 
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public Long getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public void setCaracteristicas(List<NovaCaracteristicaRequest> caracteristicas) {
+        this.caracteristicas = caracteristicas;
+    }
+
+    public LocalDateTime getInstanteCadastro() {
+        return instanteCadastro;
+    }
+
+    public void setInstanteCadastro(LocalDateTime instanteCadastro) {
+        this.instanteCadastro = instanteCadastro;
     }
 }

@@ -1,4 +1,6 @@
-package com.zup.mercado.produto;
+package com.zup.mercado.produto.detalhes;
+
+import com.zup.mercado.produto.Produto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

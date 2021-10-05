@@ -1,8 +1,10 @@
 package com.zup.mercado.produto;
 
-import ch.qos.logback.core.util.COWArrayList;
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
+import com.zup.mercado.produto.detalhes.CaracteristicaProduto;
+import com.zup.mercado.produto.detalhes.ImagemProduto;
+import com.zup.mercado.produto.detalhes.NovaCaracteristicaRequest;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -57,6 +59,17 @@ public class Produto {
         Assert.isTrue(this.caracteristicas.size() >= 3, "Todo produto precisa ter no mínimo 3 ou mais características.");
         this.instanteCadastro = instanteCadastro;
 
+    }
+
+    public Produto(Optional<Produto> produto) {
+        this.nome = produto.get().getNome();
+        this.quantidade = produto.get().getQuantidade();
+        this.descricao = produto.get().getDescricao();
+        this.valor = produto.get().getValor();
+        this.categoria = produto.get().getCategoria();
+        this.prorietario = produto.get().getProrietario();
+        this.caracteristicas = produto.get().getCaracteristicas();
+        this.instanteCadastro = produto.get().getInstanteCadastro();
     }
 
     @Override

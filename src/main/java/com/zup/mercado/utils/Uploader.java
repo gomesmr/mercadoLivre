@@ -1,4 +1,4 @@
-package com.zup.mercado.produto;
+package com.zup.mercado.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 

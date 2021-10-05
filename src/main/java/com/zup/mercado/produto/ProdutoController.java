@@ -2,6 +2,9 @@ package com.zup.mercado.produto;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.security.usuarios.UsuarioRepository;
+import com.zup.mercado.produto.detalhes.NovasImagensRequest;
+import com.zup.mercado.produto.detalhes.ProibeCaracteristicaComNomeIgualValidadtor;
+import com.zup.mercado.utils.Uploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,16 +77,32 @@ public class ProdutoController {
         manager.merge(produto);
     }
 
-//    @PutMapping ("/{id}")
-//    public ProdutoResponse atualizarProduto(@PathVariable("id") Long id,@RequestBody @Valid ProdutoRequest request){
-//        /**
-//         * 1- verificar se o produto existe
-//         * 2- converter toModel
-//         * 3- Atualizo o BD
-//         */
-//
-//        Produto produto = produtoRepository.findById(id);
-//    }
+
+        /**
+         * 1- verificar se o produto existe
+         * 2- converter toModel
+         * 3- Atualizo o BD
+         */
+/**
+    @PutMapping ("/{id}")
+    @Transactional
+    public ResponseEntity<Object> atualizarProduto(@PathVariable("id") Long id, @RequestBody @Valid ProdutoRequest request){
+        Usuario proprietario = (Usuario) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        Produto produto = produtoRepository.findById(id).orElseThrow(() ->
+                new CustomNotFoundException("id", "Este produto não existe.");
+
+        modificaProduto(Produto)
+        Produto produtoRequest = request.toModel(produto);
+
+        ProdutoResponse response = new ProdutoResponse(produtoRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    **/
+
+
 }
 
 

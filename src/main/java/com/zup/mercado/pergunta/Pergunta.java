@@ -2,6 +2,7 @@ package com.zup.mercado.pergunta;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.produto.Produto;
+import com.zup.mercado.utils.FormatarData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,7 +18,7 @@ public class Pergunta {
     @NotBlank
     private String titulo;
     @NotNull
-    private LocalDateTime dataHoraCriacao;
+    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
     @ManyToOne
     private Produto produto;
     @ManyToOne
@@ -27,24 +28,10 @@ public class Pergunta {
     public Pergunta() {
     }
 
-    public Pergunta(String titulo, LocalDateTime dataHoraCriacao, Produto produto, Usuario consumidor) {
+    public Pergunta(String titulo, Produto produto, Usuario consumidor) {
         this.titulo = titulo;
-        this.dataHoraCriacao = dataHoraCriacao;
         this.produto = produto;
         this.consumidor = consumidor;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Perguntas{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", dataHoraCriacao=" + dataHoraCriacao +
-                ", produto=" + produto +
-                ", consumidor=" + consumidor +
-                '}';
     }
 
     @Override
@@ -62,5 +49,9 @@ public class Pergunta {
 
     public String getTitulo() {
         return titulo;
+    }
+
+    public PerguntaResponse toDto() {
+        return new PerguntaResponse(id, titulo, FormatarData.dataFormatada(dataHoraCriacao));
     }
 }
