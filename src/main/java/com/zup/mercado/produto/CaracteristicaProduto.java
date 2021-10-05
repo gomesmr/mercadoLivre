@@ -9,6 +9,7 @@ public class CaracteristicaProduto {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private String nome;
     private String descricao;
+
     @ManyToOne
     private @Valid Produto produto;
 

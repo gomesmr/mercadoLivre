@@ -1,7 +1,7 @@
 package com.zup.mercado.pergunta;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
-import com.zup.mercado.produtos.Produto;
+import com.zup.mercado.produto.Produto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class Perguntas {
+public class Pergunta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,10 +24,10 @@ public class Perguntas {
     private Usuario consumidor;
 
     @Deprecated
-    public Perguntas() {
+    public Pergunta() {
     }
 
-    public Perguntas(String titulo, LocalDateTime dataHoraCriacao, Produto produto, Usuario consumidor) {
+    public Pergunta(String titulo, LocalDateTime dataHoraCriacao, Produto produto, Usuario consumidor) {
         this.titulo = titulo;
         this.dataHoraCriacao = dataHoraCriacao;
         this.produto = produto;
@@ -51,7 +51,7 @@ public class Perguntas {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Perguntas perguntas = (Perguntas) o;
+        Pergunta perguntas = (Pergunta) o;
         return titulo.equals(perguntas.titulo) && produto.equals(perguntas.produto) && consumidor.equals(perguntas.consumidor);
     }
 

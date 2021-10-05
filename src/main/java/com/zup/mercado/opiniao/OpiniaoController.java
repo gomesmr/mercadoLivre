@@ -1,8 +1,8 @@
 package com.zup.mercado.opiniao;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
-import com.zup.mercado.produtos.Produto;
-import com.zup.mercado.produtos.ProdutoRepository;
+import com.zup.mercado.produto.Produto;
+import com.zup.mercado.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.CrudRepository;

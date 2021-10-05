@@ -1,7 +1,7 @@
 package com.zup.mercado.opiniao;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
-import com.zup.mercado.produtos.Produto;
+import com.zup.mercado.produto.Produto;
 
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;

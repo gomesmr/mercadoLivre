@@ -14,8 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -42,7 +40,7 @@ public class ProdutoController {
      * @param request
      */
     @PostMapping
-    public  ResponseEntity<ProdutoResponse> cadastrar(@RequestBody @Valid com.zup.mercado.produtos.ProdutoRequest request){
+    public  ResponseEntity<ProdutoResponse> cadastrar(@RequestBody @Valid ProdutoRequest request){
         Usuario proprietario = (Usuario) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         Produto produto = request.toModel(manager, proprietario);

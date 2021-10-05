@@ -28,8 +28,10 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "idUsuario")
     private Usuario prorietario;
+
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
+
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private Set<ImagemProduto> imagens = new HashSet<>();
     private LocalDateTime instanteCadastro;
