@@ -4,7 +4,7 @@ import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.validator.ExistsId;
 import com.zup.mercado.config.validator.UniqueValue;
-import com.zup.mercado.produto.detalhes.NovaCaracteristicaRequest;
+import com.zup.mercado.caracteristica.ProdutoCaracteristicaRequest;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
 
@@ -38,7 +38,7 @@ public class ProdutoRequest {
     private Long idCategoria;
     @Size(min = 3)
     @Valid
-    private List<NovaCaracteristicaRequest> caracteristicas = new ArrayList<>();
+    private List<ProdutoCaracteristicaRequest> caracteristicas = new ArrayList<>();
     private LocalDateTime instanteCadastro = LocalDateTime.now();
 
     public Produto toModel(EntityManager manager, Usuario proprietario) {
@@ -49,14 +49,14 @@ public class ProdutoRequest {
                 categoria, proprietario, caracteristicas, instanteCadastro);
     }
 
-    public List<NovaCaracteristicaRequest> getCaracteristicas() {
+    public List<ProdutoCaracteristicaRequest> getCaracteristicas() {
         return caracteristicas;
     }
 
     public Set<String> buscaCaracteristicasIguais() {
         HashSet<String> nomesIguais = new HashSet<>();
         HashSet<String> resultados = new HashSet<>();
-        for (NovaCaracteristicaRequest caracteristica : caracteristicas){
+        for (ProdutoCaracteristicaRequest caracteristica : caracteristicas){
             if (!nomesIguais.add(caracteristica.getNome())){
                 resultados.add(caracteristica.getNome());
             }
@@ -105,7 +105,7 @@ public class ProdutoRequest {
         this.idCategoria = idCategoria;
     }
 
-    public void setCaracteristicas(List<NovaCaracteristicaRequest> caracteristicas) {
+    public void setCaracteristicas(List<ProdutoCaracteristicaRequest> caracteristicas) {
         this.caracteristicas = caracteristicas;
     }
 

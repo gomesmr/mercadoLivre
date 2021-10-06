@@ -6,6 +6,7 @@ import com.zup.mercado.produto.Produto;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 @Entity
 public class Opiniao {
     @Id

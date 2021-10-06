@@ -1,4 +1,4 @@
-package com.zup.mercado.produto.detalhes;
+package com.zup.mercado.caracteristica;
 
 import com.zup.mercado.produto.Produto;
 
@@ -6,20 +6,20 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class NovaCaracteristicaRequest {
+public class ProdutoCaracteristicaRequest {
     @NotBlank
     private String nome;
     @NotBlank
     private String descricao;
 
-    public NovaCaracteristicaRequest(String nome, String descricao) {
+    public ProdutoCaracteristicaRequest(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
     }
 
     @Override
     public String toString() {
-        return "NovaCaracteristicaRequest{" +
+        return "ProdutoCaracteristicaRequest{" +
                 "nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 '}';
@@ -33,7 +33,7 @@ public class NovaCaracteristicaRequest {
         return descricao;
     }
 
-    public CaracteristicaProduto toModel(@NotNull @Valid Produto produto) {
-        return new CaracteristicaProduto(nome, descricao, produto);
+    public ProdutoCaracteristica toModel(@NotNull @Valid Produto produto) {
+        return new ProdutoCaracteristica(nome, descricao, produto);
     }
 }

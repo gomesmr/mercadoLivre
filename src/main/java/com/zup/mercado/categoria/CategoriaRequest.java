@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
-public class NovaCategoriaRequest {
+public class CategoriaRequest {
 
     @UniqueValue(domainClass = Categoria.class, fieldName = "nome", message = "Essa categoria já existe.")
     @NotBlank
@@ -29,12 +29,19 @@ public class NovaCategoriaRequest {
         return categoria;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Long getIdCategoriaMae() {
+        return idCategoriaMae;
     }
 
     public void setIdCategoriaMae(Long idCategoriaMae) {
         this.idCategoriaMae = idCategoriaMae;
     }
-
 }

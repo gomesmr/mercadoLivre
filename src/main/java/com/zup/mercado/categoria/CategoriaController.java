@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -26,7 +25,7 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CategoriaResponse> cadastrar(@RequestBody @Valid NovaCategoriaRequest request){
+    public ResponseEntity<CategoriaResponse> cadastrar(@RequestBody @Valid CategoriaRequest request){
         Categoria categoria = request.toModel(manager);
         Categoria novaCategoria = categoriaRepository.save(categoria);
         CategoriaResponse categoriaResponse = new CategoriaResponse(novaCategoria);

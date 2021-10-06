@@ -1,4 +1,4 @@
-package com.zup.mercado.produto.detalhes;
+package com.zup.mercado.caracteristica;
 
 import com.sun.xml.bind.v2.TODO;
 import com.zup.mercado.produto.ProdutoRequest;

@@ -14,24 +14,11 @@ public class CategoriaResponse {
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getCategoria() {
         return categoria;
     }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public Categoria getCategoriaMae() {
         return categoriaMae;
     }
 
-    public void setCategoriaMae(Categoria categoriaMae) {
-        this.categoriaMae = categoriaMae;
-    }
 }

@@ -2,8 +2,8 @@ package com.zup.mercado.produto;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.security.usuarios.UsuarioRepository;
-import com.zup.mercado.produto.detalhes.NovasImagensRequest;
-import com.zup.mercado.produto.detalhes.ProibeCaracteristicaComNomeIgualValidadtor;
+import com.zup.mercado.imagem.NovasImagensRequest;
+import com.zup.mercado.caracteristica.ProibeCaracteristicaComNomeIgualValidadtor;
 import com.zup.mercado.utils.Uploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

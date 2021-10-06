@@ -1,4 +1,4 @@
-package com.zup.mercado.produto.detalhes;
+package com.zup.mercado.imagem;
 
 import com.zup.mercado.produto.Produto;
 import org.hibernate.validator.constraints.URL;
@@ -14,21 +14,24 @@ public class ImagemProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @NotNull
-    @Valid
-    private Produto produto;
     @URL
     @NotBlank
     private String link;
+    @NotNull
+    @ManyToOne
+    private Produto produto;
 
     @Deprecated
     public ImagemProduto() {
     }
 
-    public ImagemProduto(@NotNull @Valid Produto produto, @URL @NotBlank String link) {
+    public ImagemProduto(Produto produto, String link) {
         this.produto =produto;
         this.link = link;
+    }
+
+    public String getLink() {
+        return link;
     }
 
     @Override

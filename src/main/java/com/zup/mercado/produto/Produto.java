@@ -2,9 +2,11 @@ package com.zup.mercado.produto;
 
 import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
-import com.zup.mercado.produto.detalhes.CaracteristicaProduto;
-import com.zup.mercado.produto.detalhes.ImagemProduto;
-import com.zup.mercado.produto.detalhes.NovaCaracteristicaRequest;
+import com.zup.mercado.opiniao.Opiniao;
+import com.zup.mercado.pergunta.Pergunta;
+import com.zup.mercado.caracteristica.ProdutoCaracteristica;
+import com.zup.mercado.imagem.ImagemProduto;
+import com.zup.mercado.caracteristica.ProdutoCaracteristicaRequest;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -24,18 +26,27 @@ public class Produto {
     private @NotNull @Positive Integer quantidade;
     private @NotBlank @Size(min = 30, max = 1000) String descricao;
     private @NotNull @Positive BigDecimal valor;
+    /**  CATEGORIA   **/
     @ManyToOne
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
+    /**  PROPRIETÁRIO   **/
     @ManyToOne
-    @JoinColumn(name = "idUsuario")
+    @JoinColumn(name = "idProprietario")
     private Usuario prorietario;
-
+    /**  CARACTERÍSTICAS   **/
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
-    private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
-
+    private Set<ProdutoCaracteristica> caracteristicas = new HashSet<ProdutoCaracteristica>();
+    /**  IMAGENS   **/
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
-    private Set<ImagemProduto> imagens = new HashSet<>();
+    private List<ImagemProduto> imagens;
+    /**  PERGUNTAS   **/
+    @OneToMany(mappedBy = "produto")
+    private List<Pergunta> perguntas;
+    /**  OPINIÕES   **/
+    @OneToMany(mappedBy = "produto")
+    private List<Opiniao> opinioes;
+
     private LocalDateTime instanteCadastro;
 
     @Deprecated
@@ -45,7 +56,7 @@ public class Produto {
     public Produto
             (String nome, Integer quantidade, String descricao,
              BigDecimal valor, Categoria categoria, Usuario prorietario,
-             List<NovaCaracteristicaRequest> caracteristicas,
+             List<ProdutoCaracteristicaRequest> caracteristicas,
              LocalDateTime instanteCadastro) {
         this.nome = nome;
         this.quantidade = quantidade;
@@ -96,31 +107,46 @@ public class Produto {
     }
 
     public Integer getQuantidade() {
+
         return quantidade;
     }
 
     public String getDescricao() {
+
         return descricao;
     }
 
     public BigDecimal getValor() {
+
         return valor;
     }
 
     public Categoria getCategoria() {
+
         return categoria;
     }
 
     public Usuario getProrietario() {
+
         return prorietario;
     }
 
-    public Set<CaracteristicaProduto> getCaracteristicas() {
+    public LocalDateTime getInstanteCadastro() {
+
+        return instanteCadastro;
+    }
+
+    public Set<ProdutoCaracteristica> getCaracteristicas() {
+
         return caracteristicas;
     }
 
-    public LocalDateTime getInstanteCadastro() {
-        return instanteCadastro;
+    public List<ImagemProduto> getImagens() {
+        return imagens;
+    }
+
+    public List<Pergunta> getPerguntas() {
+        return perguntas;
     }
 
     @Override
@@ -145,5 +171,9 @@ public class Produto {
 
     public boolean pertenceAoUsuario(Usuario possivelProprietario) {
         return this.prorietario.equals(possivelProprietario);
+    }
+
+    public Double calcularMediaAritmetica() {
+        return null;
     }
 }
