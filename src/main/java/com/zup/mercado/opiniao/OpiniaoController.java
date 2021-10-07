@@ -25,7 +25,7 @@ public class OpiniaoController {
     private OpiniaoRepository opiniaoRepository;
 
     @PostMapping(value = "/{id}/opiniao")
-    public String adicionaOpiniao(@PathVariable("id") Long id, @RequestBody @Valid OpiniaoRequest request){
+    public OpiniaoResponse adicionaOpiniao(@PathVariable("id") Long id, @RequestBody @Valid OpiniaoRequest request){
 //        1
         Usuario consumidor = (Usuario) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
@@ -35,7 +35,7 @@ public class OpiniaoController {
         Opiniao novaOpiniao = request.toModel(produto, consumidor);
         opiniaoRepository.save(novaOpiniao);
 
-        return novaOpiniao.toString();
+        return new OpiniaoResponse(novaOpiniao);
 
     }
 }

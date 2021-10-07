@@ -21,6 +21,7 @@ public class DetalhesProdutoResponse {
     private List<DetalhesProdutoCaracteristica> caracteristicas;
     private List<DetalhesProdutoPergunta> perguntas;
     private List<DetalhesProdutoImagem> imagens;
+    private List<DetalhesProdutoOpiniao> opinioes;
     private Double mediaNota;
     private LocalDateTime instanteCadastro;
 
@@ -38,17 +39,9 @@ public class DetalhesProdutoResponse {
                 .map(DetalhesProdutoPergunta::new)
                 .collect(Collectors.toList());
 
-        /**
-
         this.opinioes = produto.getOpinioes()
                 .stream()
-                .map(DetalheOpiniaoResponse::new)
-                -.collect(Collectors.toList());
- */
-
-        this.perguntas = produto.getPerguntas()
-                .stream()
-                .map(DetalhesProdutoPergunta::new)
+                .map(DetalhesProdutoOpiniao::new)
                 .collect(Collectors.toList());
 
         this.imagens = produto.getImagens()

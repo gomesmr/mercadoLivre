@@ -26,6 +26,7 @@ public class Produto {
     private @NotNull @Positive Integer quantidade;
     private @NotBlank @Size(min = 30, max = 1000) String descricao;
     private @NotNull @Positive BigDecimal valor;
+    private LocalDateTime instanteCadastro;
     /**  CATEGORIA   **/
     @ManyToOne
     @JoinColumn(name = "idCategoria")
@@ -47,11 +48,8 @@ public class Produto {
     @OneToMany(mappedBy = "produto")
     private List<Opiniao> opinioes;
 
-    private LocalDateTime instanteCadastro;
-
     @Deprecated
-    public Produto() {
-    }
+    public Produto() {}
 
     public Produto
             (String nome, Integer quantidade, String descricao,
@@ -70,32 +68,6 @@ public class Produto {
         Assert.isTrue(this.caracteristicas.size() >= 3, "Todo produto precisa ter no mínimo 3 ou mais características.");
         this.instanteCadastro = instanteCadastro;
 
-    }
-
-    public Produto(Optional<Produto> produto) {
-        this.nome = produto.get().getNome();
-        this.quantidade = produto.get().getQuantidade();
-        this.descricao = produto.get().getDescricao();
-        this.valor = produto.get().getValor();
-        this.categoria = produto.get().getCategoria();
-        this.prorietario = produto.get().getProrietario();
-        this.caracteristicas = produto.get().getCaracteristicas();
-        this.instanteCadastro = produto.get().getInstanteCadastro();
-    }
-
-    @Override
-    public String toString() {
-        return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", quantidade=" + quantidade +
-                ", descricao='" + descricao + '\'' +
-                ", valor=" + valor +
-                ", categoria=" + categoria +
-                ", prorietario=" + prorietario +
-                ", caracteristicas=" + caracteristicas +
-                ", instanteCadastro=" + instanteCadastro +
-                '}';
     }
 
     public Long getId() {
@@ -142,11 +114,16 @@ public class Produto {
     }
 
     public List<ImagemProduto> getImagens() {
+
         return imagens;
     }
 
     public List<Pergunta> getPerguntas() {
         return perguntas;
+    }
+
+    public List<Opiniao> getOpinioes() {
+        return opinioes;
     }
 
     @Override

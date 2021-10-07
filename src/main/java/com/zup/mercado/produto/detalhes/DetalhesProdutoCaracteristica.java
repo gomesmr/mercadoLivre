@@ -3,8 +3,8 @@ package com.zup.mercado.produto.detalhes;
 import com.zup.mercado.caracteristica.ProdutoCaracteristica;
 
 public class DetalhesProdutoCaracteristica {
-    private String nome;
 
+    private String nome;
     private String descricao;
 
     public DetalhesProdutoCaracteristica(ProdutoCaracteristica caracteristica) {

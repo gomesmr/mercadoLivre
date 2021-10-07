@@ -12,13 +12,18 @@ public class Opiniao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Min(1) @Max(5) int nota;
-    @NotBlank String titulo;
-    @NotBlank @Size(max = 500) String descricao;
+    @Min(1) @Max(5)
+    private int nota;
+    @NotBlank
+    private String titulo;
+    @NotBlank @Size(max = 500)
+    private  String descricao;
     @ManyToOne
-    @NotNull @Valid Produto produto;
+    @NotNull
+    private Produto produto;
     @ManyToOne
-    @NotNull @Valid Usuario consumidor;
+    @NotNull
+    private Usuario consumidor;
 
     @Deprecated
     public Opiniao() {
@@ -36,15 +41,15 @@ public class Opiniao {
                 this.consumidor = consumidor;
     }
 
-    @Override
-    public String toString() {
-        return "Opiniao{" +
-                "id=" + id +
-                ", nota=" + nota +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", produto=" + produto +
-                ", consumidor=" + consumidor +
-                '}';
+    public int getNota() {
+        return nota;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 }
