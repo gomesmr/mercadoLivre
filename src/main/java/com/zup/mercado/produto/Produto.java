@@ -37,7 +37,7 @@ public class Produto {
     private Usuario prorietario;
     /**  CARACTERÍSTICAS   **/
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
-    private Set<ProdutoCaracteristica> caracteristicas = new HashSet<ProdutoCaracteristica>();
+    private Set<ProdutoCaracteristica> caracteristicas = new HashSet<>();
     /**  IMAGENS   **/
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private List<ImagemProduto> imagens;
@@ -70,51 +70,39 @@ public class Produto {
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getNome() {
         return nome;
     }
 
     public Integer getQuantidade() {
-
         return quantidade;
     }
 
     public String getDescricao() {
-
         return descricao;
     }
 
     public BigDecimal getValor() {
-
         return valor;
     }
 
     public Categoria getCategoria() {
-
         return categoria;
     }
 
     public Usuario getProrietario() {
-
         return prorietario;
     }
 
     public LocalDateTime getInstanteCadastro() {
-
         return instanteCadastro;
     }
 
     public Set<ProdutoCaracteristica> getCaracteristicas() {
-
         return caracteristicas;
     }
 
     public List<ImagemProduto> getImagens() {
-
         return imagens;
     }
 
@@ -150,7 +138,20 @@ public class Produto {
         return this.prorietario.equals(possivelProprietario);
     }
 
-    public Double calcularMediaAritmetica() {
-        return null;
+    public double calcularMediaAritmetica() {
+        var notas = todasNotas();
+        var totalNotas = notas.stream().reduce(0.0, Double::sum);
+        var quantidadeNotas = notas.size();
+        return totalNotas == 0 || quantidadeNotas == 0 ? 0 : totalNotas / quantidadeNotas;
+    }
+
+    /**
+     * Obter a lista de todas as notas
+     */
+    public List<Double> todasNotas() {
+        return opinioes.stream()
+                .map(Opiniao::getNota)
+                .map(nota -> (double) nota)
+                .collect(Collectors.toList());
     }
 }

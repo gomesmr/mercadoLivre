@@ -26,14 +26,13 @@ public class Opiniao {
     private Usuario consumidor;
 
     @Deprecated
-    public Opiniao() {
-    }
+    public Opiniao() {}
 
-    public Opiniao(@Min(1) @Max(5) int nota,
-                   @NotBlank String titulo,
-                   @NotBlank @Size(max = 500) String descricao,
-                   @NotNull @Valid Produto produto,
-                   @NotNull @Valid Usuario consumidor) {
+    public Opiniao(int nota,
+                   String titulo,
+                   String descricao,
+                   Produto produto,
+                   Usuario consumidor) {
                 this.nota = nota;
                 this.titulo = titulo;
                 this.descricao = descricao;

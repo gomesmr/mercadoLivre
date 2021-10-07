@@ -4,6 +4,7 @@ import com.zup.mercado.categoria.Categoria;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.imagem.ImagemProduto;
 import com.zup.mercado.produto.Produto;
+import com.zup.mercado.utils.FormatarData;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,13 +23,15 @@ public class DetalhesProdutoResponse {
     private List<DetalhesProdutoPergunta> perguntas;
     private List<DetalhesProdutoImagem> imagens;
     private List<DetalhesProdutoOpiniao> opinioes;
+    private String instanteCadastro;
     private Double mediaNota;
-    private LocalDateTime instanteCadastro;
+    private Integer total;
 
     public DetalhesProdutoResponse(Produto produto) {
         this.nome = produto.getNome();
         this.descricao = produto.getDescricao();
         this.preco = produto.getValor();
+
         Categoria cat = produto.getCategoria();
         this.categoria = cat.getCategoria();
 
@@ -37,11 +40,6 @@ public class DetalhesProdutoResponse {
         this.perguntas = produto.getPerguntas()
                 .stream()
                 .map(DetalhesProdutoPergunta::new)
-                .collect(Collectors.toList());
-
-        this.opinioes = produto.getOpinioes()
-                .stream()
-                .map(DetalhesProdutoOpiniao::new)
                 .collect(Collectors.toList());
 
         this.imagens = produto.getImagens()
@@ -55,7 +53,17 @@ public class DetalhesProdutoResponse {
                 .collect(Collectors.toList());
 
         this.mediaNota = produto.calcularMediaAritmetica();
-        //this.total = produto.todasNotas().size();
+
+        this.opinioes = produto.getOpinioes()
+                .stream()
+                .map(DetalhesProdutoOpiniao::new)
+                .collect(Collectors.toList());
+
+        this.total = produto.todasNotas().size();
+
+        this.mediaNota = produto.calcularMediaAritmetica();
+
+        this.instanteCadastro = FormatarData.dataFormatada(produto.getInstanteCadastro());
     }
 
     public String getNome() {
@@ -90,11 +98,19 @@ public class DetalhesProdutoResponse {
         return imagens;
     }
 
+    public List<DetalhesProdutoOpiniao> getOpinioes() {
+        return opinioes;
+    }
+
     public Double getMediaNota() {
         return mediaNota;
     }
 
-    public LocalDateTime getInstanteCadastro() {
+    public String getInstanteCadastro() {
         return instanteCadastro;
+    }
+
+    public Integer getTotal() {
+        return total;
     }
 }

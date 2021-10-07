@@ -1,13 +1,12 @@
 package com.zup.mercado.opiniao;
 
-import javax.validation.constraints.*;
-
 public class OpiniaoResponse {
     private int nota;
     private String titulo;
     private  String descricao;
 
     public OpiniaoResponse(Opiniao opiniao) {
+        this.nota = opiniao.getNota();
         this.titulo = opiniao.getTitulo();
         this.descricao = opiniao.getDescricao();
     }
