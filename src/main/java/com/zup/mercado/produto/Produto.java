@@ -139,10 +139,13 @@ public class Produto {
     }
 
     public double calcularMediaAritmetica() {
-        var notas = todasNotas();
-        var totalNotas = notas.stream().reduce(0.0, Double::sum);
-        var quantidadeNotas = notas.size();
-        return totalNotas == 0 || quantidadeNotas == 0 ? 0 : totalNotas / quantidadeNotas;
+        List<Double> notas = todasNotas();
+        Double totalNotas = notas.stream().reduce(0.0, Double::sum);
+        Integer quantidadeNotas = notas.size();
+        if (totalNotas == 0 || quantidadeNotas == 0) {
+            return 0;
+        }
+        return  totalNotas/quantidadeNotas;
     }
 
     /**

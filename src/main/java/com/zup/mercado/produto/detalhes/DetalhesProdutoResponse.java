@@ -5,6 +5,7 @@ import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.imagem.ImagemProduto;
 import com.zup.mercado.produto.Produto;
 import com.zup.mercado.utils.FormatarData;
+import com.zup.mercado.utils.FormatarNumero;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ public class DetalhesProdutoResponse {
     private List<DetalhesProdutoImagem> imagens;
     private List<DetalhesProdutoOpiniao> opinioes;
     private String instanteCadastro;
-    private Double mediaNota;
+    private BigDecimal mediaNota;
     private Integer total;
 
     public DetalhesProdutoResponse(Produto produto) {
@@ -52,8 +53,6 @@ public class DetalhesProdutoResponse {
                 .map(DetalhesProdutoCaracteristica::new)
                 .collect(Collectors.toList());
 
-        this.mediaNota = produto.calcularMediaAritmetica();
-
         this.opinioes = produto.getOpinioes()
                 .stream()
                 .map(DetalhesProdutoOpiniao::new)
@@ -61,7 +60,7 @@ public class DetalhesProdutoResponse {
 
         this.total = produto.todasNotas().size();
 
-        this.mediaNota = produto.calcularMediaAritmetica();
+        this.mediaNota = FormatarNumero.formatarDouble(produto.calcularMediaAritmetica());
 
         this.instanteCadastro = FormatarData.dataFormatada(produto.getInstanteCadastro());
     }
@@ -102,7 +101,7 @@ public class DetalhesProdutoResponse {
         return opinioes;
     }
 
-    public Double getMediaNota() {
+    public BigDecimal getMediaNota() {
         return mediaNota;
     }
 
