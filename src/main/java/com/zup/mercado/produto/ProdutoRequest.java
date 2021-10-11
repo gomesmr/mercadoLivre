@@ -45,7 +45,7 @@ public class ProdutoRequest {
         Categoria categoria = manager.find(Categoria.class, idCategoria);
         Assert.notNull(categoria, "O id da categoria é inválido");
 
-        return new Produto(nome, quantidade, descricao, valor,
+        return new Produto(null, nome, quantidade, descricao, valor,
                 categoria, proprietario, caracteristicas, instanteCadastro);
     }
 

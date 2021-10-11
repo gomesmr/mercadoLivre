@@ -17,7 +17,7 @@ public class ProdutoResponse {
 
     public ProdutoResponse(Produto produto) {
         this.nome = produto.getNome();
-        this.quantidade = produto.getQuantidade();
+        this.quantidade = produto.getEstoqueProduto();
         this.descricao = produto.getDescricao();
         this.valor = produto.getValor();
         this.categoria = produto.getCategoria();

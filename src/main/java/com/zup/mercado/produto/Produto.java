@@ -23,7 +23,7 @@ public class Produto {
     private Long id;
     @Column(unique = true)
     private @NotBlank String nome;
-    private @NotNull @Positive Integer quantidade;
+    private @NotNull @Positive Integer estoqueProduto;
     private @NotBlank @Size(min = 30, max = 1000) String descricao;
     private @NotNull @Positive BigDecimal valor;
     private LocalDateTime instanteCadastro;
@@ -52,12 +52,13 @@ public class Produto {
     public Produto() {}
 
     public Produto
-            (String nome, Integer quantidade, String descricao,
+            (Long id, String nome, Integer estoqueProduto, String descricao,
              BigDecimal valor, Categoria categoria, Usuario prorietario,
              List<ProdutoCaracteristicaRequest> caracteristicas,
              LocalDateTime instanteCadastro) {
+        this.id = id;
         this.nome = nome;
-        this.quantidade = quantidade;
+        this.estoqueProduto = estoqueProduto;
         this.descricao = descricao;
         this.valor = valor;
         this.categoria = categoria;
@@ -70,12 +71,16 @@ public class Produto {
 
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
+    public Integer getEstoqueProduto() {
+        return estoqueProduto;
     }
 
     public String getDescricao() {
@@ -157,4 +162,6 @@ public class Produto {
                 .map(nota -> (double) nota)
                 .collect(Collectors.toList());
     }
+
+
 }

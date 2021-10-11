@@ -40,22 +40,29 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
-    public StandardError handleHttpMessageNotReadableException(SQLIntegrityConstraintViolationException exception) {
+    public StandardError handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
         return new StandardError(LocalDateTime.now(), HttpStatus.UNPROCESSABLE_ENTITY.value(), HttpStatus.UNPROCESSABLE_ENTITY.toString(),
                 exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(FeignException.class)
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    public StandardError handleHttpMessageNotReadableException(FeignException exception) {
+    public StandardError handleFeignException(FeignException exception) {
         return new StandardError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.toString(),
                 exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(CustomNotFoundException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public StandardError handleHttpMessageNotReadableException(CustomNotFoundException exception) {
+    public StandardError handleCustomNotFoundException(CustomNotFoundException exception) {
         return new StandardError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.toString(),
+                exception.getMsg());
+    }
+
+    @ExceptionHandler(CustomBusinessRuleViolation.class)
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    public StandardError handleCustomBusinessRuleViolation(CustomBusinessRuleViolation exception) {
+        return new StandardError(LocalDateTime.now(), HttpStatus.UNPROCESSABLE_ENTITY.value(), HttpStatus.UNPROCESSABLE_ENTITY.toString(),
                 exception.getMsg());
     }
 

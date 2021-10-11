@@ -22,7 +22,7 @@ public class ProdutoTest {
         Usuario proprietario = new Usuario("gomes.mr@gmail.com", "12345");
         Categoria categoria = new Categoria("categoria");
 
-        new Produto("nome", 10, "descricao", BigDecimal.TEN,
+        new Produto(null, "nome", 10, "descricao", BigDecimal.TEN,
                 categoria, proprietario, (List<ProdutoCaracteristicaRequest>) caracteristicas, null);
     
     }
