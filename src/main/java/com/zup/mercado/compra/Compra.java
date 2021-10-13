@@ -1,19 +1,15 @@
 package com.zup.mercado.compra;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
-import com.zup.mercado.config.validator.CustomBusinessRuleViolation;
 import com.zup.mercado.gateway.Gateway;
-import com.zup.mercado.gateway.RetornoPagseguroRequest;
+import com.zup.mercado.gateway.RetornoGatewayPagamento;
 import com.zup.mercado.produto.Produto;
 import com.zup.mercado.produto.ProdutoRepository;
 import com.zup.mercado.transacao.StatusTransacao;
 import com.zup.mercado.transacao.Transacao;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
@@ -107,7 +103,7 @@ public class Compra {
 
 
 //Alberto code
-    public void adicionaTransacao(RetornoPagseguroRequest request) {
+    public void adicionaTransacao(RetornoGatewayPagamento request) {
         Transacao novaTransacao = request.toModel(this);
         //não é permitido transação com succeso com o mesmo idTransacao
         Assert.isTrue(!this.transacoes.contains(novaTransacao), "Já existe uma transação igual a essa processada "+novaTransacao.toString());

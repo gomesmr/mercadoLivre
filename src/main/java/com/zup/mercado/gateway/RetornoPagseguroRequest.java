@@ -7,7 +7,7 @@ import com.zup.mercado.transacao.Transacao;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class RetornoPagseguroRequest {
+public class RetornoPagseguroRequest implements RetornoGatewayPagamento{
     @NotBlank
     private String idTransacao;
     @NotNull
