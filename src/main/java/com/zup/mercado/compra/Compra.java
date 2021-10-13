@@ -3,10 +3,13 @@ package com.zup.mercado.compra;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.config.validator.CustomBusinessRuleViolation;
 import com.zup.mercado.gateway.Gateway;
+import com.zup.mercado.gateway.RetornoPagseguroRequest;
 import com.zup.mercado.produto.Produto;
 import com.zup.mercado.produto.ProdutoRepository;
+import com.zup.mercado.transacao.StatusTransacao;
 import com.zup.mercado.transacao.Transacao;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.Assert;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
@@ -60,12 +63,8 @@ public class Compra {
                 "id=" + id +
                 ", identificador='" + identificador + '\'' +
                 ", gateway=" + gateway +
-                ", produto=" + produto +
-                ", quantidade=" + quantidade +
-                ", valor=" + valor +
-                ", comprador=" + comprador +
                 ", status=" + status +
-                ", instanteCompra=" + instanteCompra +
+                ", transacoes=" + transacoes +
                 '}';
     }
 
@@ -106,27 +105,33 @@ public class Compra {
         int resposta = produtoRepository.setEstoqueProdutoById(estoqueFinal, produto.getId());
     }
 
-    public void adicionaTransacao(Transacao transacao) {
 
-        //se existe uma transacao aprovada: cai fora
+//Alberto code
+    public void adicionaTransacao(RetornoPagseguroRequest request) {
+        Transacao novaTransacao = request.toModel(this);
+        //não é permitido transação com succeso com o mesmo idTransacao
+        Assert.isTrue(!this.transacoes.contains(novaTransacao), "Já existe uma transação igual a essa processada "+novaTransacao.toString());
 
-        boolean verificaTransacoesAprovadas = transacoesAprovadas().size() > 2 ;
-        boolean transacaoAprovada = transacao.aprovada();
-
-        if (verificaTransacoesAprovadas && transacaoAprovada) {
-            throw new CustomBusinessRuleViolation("transacoes", "Esta compra já foi finalizada!");
-        }
-        this.transacoes.add(transacao);
-    }
-
-    public boolean aprovada() {
-        return !transacoesAprovadas().isEmpty();
-    }
-
-    public Set<Transacao> transacoesAprovadas() {
-        return this.transacoes.stream()
-                .filter(Transacao::aprovada)
+        /**
+         * Busco dentre as transações concluidas, se já existe uma finalizada com sucesso
+         */
+        Set<Transacao> transacoesConcluidasComSucesso = this.transacoes.stream()
+                .filter(Transacao :: concluidaComSucesso)
                 .collect(Collectors.toSet());
+
+        /**
+         * Se esta lista não estiver vazia, interrompo o processamento
+         */
+        Assert.isTrue(transacoesConcluidasComSucesso.isEmpty(), "Essa compra já foi concluida com sucesso!");
+
+        /**
+         * Se a lista estiver vazia, eu posso adicionar uma transação (com sucesso ou não...)
+         */
+        this.transacoes.add(novaTransacao);
+
+        if (novaTransacao.getStatus().equals(StatusTransacao.sucesso)){
+            this.status=StatusCompra.FINALIZADA;
+        }
     }
 
 }

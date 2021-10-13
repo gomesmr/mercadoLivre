@@ -15,32 +15,28 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private StatusRetornoTransacao status;
+    @Enumerated(EnumType.STRING)
+    private StatusTransacao status;
     @NotBlank
-    private String idTransacao;
+    private String idTransacaoGateway;
     @NotNull
     @Valid
     @ManyToOne
     private Compra compra;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime instanteProcessamento = LocalDateTime.now();
 
     @Deprecated
-    public Transacao() {
-    }
+    public Transacao() {}
 
-    public Transacao(StatusRetornoTransacao status, String idTransacao, Compra compra) {
+    public Transacao(StatusTransacao status, String idTransacaoGateway, Compra compra) {
         this.status = status;
-        this.idTransacao = idTransacao;
+        this.idTransacaoGateway = idTransacaoGateway;
         this.compra = compra;
     }
 
-    public StatusRetornoTransacao getStatus() {
-        return status;
-    }
 
-    public boolean aprovada() {
-        return this.status.equals(StatusRetornoTransacao.SUCESSO);
+    public StatusTransacao getStatus() {
+        return status;
     }
 
     @Override
@@ -48,11 +44,15 @@ public class Transacao {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transacao transacao = (Transacao) o;
-        return idTransacao.equals(transacao.idTransacao);
+        return idTransacaoGateway.equals(transacao.idTransacaoGateway);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTransacao);
+        return Objects.hash(idTransacaoGateway);
+    }
+
+    public boolean concluidaComSucesso() {
+        return Objects.equals(this.status, StatusTransacao.sucesso);
     }
 }

@@ -1,5 +1,7 @@
 package com.zup.mercado.compra;
 
 public enum StatusCompra {
-    INICIADA
+    INICIADA,FINALIZADA;
+
+
 }

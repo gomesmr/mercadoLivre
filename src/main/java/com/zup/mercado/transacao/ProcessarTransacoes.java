@@ -18,13 +18,13 @@ public class ProcessarTransacoes {
 
     public void processaTransacao(Compra compra){
         //verifica a lista de transações
-
+/*
         if (compra.aprovada()) {
             eventosTransacao.forEach(evento -> evento.processaTransacaoAprovada(compra));
             compraRepository.save(compra);
         } else {
             eventosTransacao.forEach(evento -> evento.processaTransacaoRecusada(compra));
-        }
+        }*/
     }
 
 }

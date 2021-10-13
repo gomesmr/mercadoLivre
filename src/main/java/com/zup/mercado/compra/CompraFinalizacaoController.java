@@ -24,14 +24,17 @@ public class CompraFinalizacaoController {
 
 
     @PostMapping(value = "/{id}/pagseguro")
-    public void finalizaCompraPagSeguro(@PathVariable("id") String identificador, @RequestBody @Valid RetornoPagseguroRequest request){
+    public String finalizaCompraPagSeguro(@PathVariable("id") String identificador, @RequestBody @Valid RetornoPagseguroRequest request){
         Compra compra = compraRepository.findByIdentificador(identificador).orElseThrow(() -> {
             throw new CustomNotFoundException("identificador", "Não existe uma compra com este identificador");
         });
 
-        Transacao transacao = request.toModel(compra);
-        compra.adicionaTransacao(transacao);
-        processarTransacoes.processaTransacao(compra);
+        compra.adicionaTransacao(request);
+        compraRepository.save(compra);
+        return compra.toString();
+
     }
+
+
 
 }
