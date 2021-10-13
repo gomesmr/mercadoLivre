@@ -1,9 +1,13 @@
 package com.zup.mercado.compra;
 
 import com.zup.mercado.config.security.usuarios.Usuario;
+import com.zup.mercado.config.validator.CustomBusinessRuleViolation;
 import com.zup.mercado.gateway.Gateway;
 import com.zup.mercado.produto.Produto;
 import com.zup.mercado.produto.ProdutoRepository;
+import com.zup.mercado.transacao.Transacao;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +15,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 public class Compra {
@@ -32,6 +39,8 @@ public class Compra {
     @Enumerated(EnumType.STRING)
     private StatusCompra status = StatusCompra.INICIADA;
     private LocalDateTime instanteCompra = LocalDateTime.now();
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.MERGE)
+    private Set<Transacao> transacoes = new HashSet<>();
 
     @Deprecated
     public Compra() {}
@@ -96,4 +105,28 @@ public class Compra {
         int estoqueFinal = produto.getEstoqueProduto() - getQuantidade();
         int resposta = produtoRepository.setEstoqueProdutoById(estoqueFinal, produto.getId());
     }
+
+    public void adicionaTransacao(Transacao transacao) {
+
+        //se existe uma transacao aprovada: cai fora
+
+        boolean verificaTransacoesAprovadas = transacoesAprovadas().size() > 2 ;
+        boolean transacaoAprovada = transacao.aprovada();
+
+        if (verificaTransacoesAprovadas && transacaoAprovada) {
+            throw new CustomBusinessRuleViolation("transacoes", "Esta compra já foi finalizada!");
+        }
+        this.transacoes.add(transacao);
+    }
+
+    public boolean aprovada() {
+        return !transacoesAprovadas().isEmpty();
+    }
+
+    public Set<Transacao> transacoesAprovadas() {
+        return this.transacoes.stream()
+                .filter(Transacao::aprovada)
+                .collect(Collectors.toSet());
+    }
+
 }

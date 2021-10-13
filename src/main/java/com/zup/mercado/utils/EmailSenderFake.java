@@ -18,4 +18,10 @@ public class EmailSenderFake implements EmailSender {
 
     }
 
+    @Override
+    public void comunicaPagamentoRecusado(Compra compra) {
+        System.out.printf("Email Enviado Informa Compra Recusada: %s\n", compra.toString());
+    }
+
+
 }
