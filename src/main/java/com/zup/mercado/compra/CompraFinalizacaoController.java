@@ -4,6 +4,8 @@ import com.zup.mercado.config.validator.CustomNotFoundException;
 import com.zup.mercado.gateway.RetornoGatewayPagamento;
 import com.zup.mercado.gateway.RetornoPagseguroRequest;
 import com.zup.mercado.gateway.RetornoPaypalRequest;
+import com.zup.mercado.outrossistemas.NotaFiscal;
+import com.zup.mercado.outrossistemas.Ranking;
 import com.zup.mercado.transacao.ProcessarTransacoes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +31,6 @@ public class CompraFinalizacaoController {
     }
     @PostMapping(value = "/{id}/paypal")
     public String finalizaCompraPaypal(@PathVariable("id") String identificador, @RequestBody @Valid RetornoPaypalRequest request){
-        System.out.println("STOP");
         return processa(identificador, request);
 
     }
@@ -39,7 +40,7 @@ public class CompraFinalizacaoController {
             throw new CustomNotFoundException("identificador", "Não existe uma compra com este identificador");
         });
         compra.adicionaTransacao(retornoGatewayPagamento);
-        compraRepository.save(compra);
+        processarTransacoes.processaTransacao(compra);
         return compra.toString();
     }
 

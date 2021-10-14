@@ -21,7 +21,7 @@ public class ProdutoResponse {
         this.descricao = produto.getDescricao();
         this.valor = produto.getValor();
         this.categoria = produto.getCategoria();
-        this.proprietario = produto.getProrietario();
+        this.proprietario = produto.getVendedor();
         this.instanteCadastro = produto.getInstanteCadastro();
     }
 

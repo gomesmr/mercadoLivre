@@ -33,8 +33,8 @@ public class Produto {
     private Categoria categoria;
     /**  PROPRIETÁRIO   **/
     @ManyToOne
-    @JoinColumn(name = "idProprietario")
-    private Usuario prorietario;
+    @JoinColumn(name = "idVendedor")
+    private Usuario vendedor;
     /**  CARACTERÍSTICAS   **/
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<ProdutoCaracteristica> caracteristicas = new HashSet<>();
@@ -53,7 +53,7 @@ public class Produto {
 
     public Produto
             (Long id, String nome, Integer estoqueProduto, String descricao,
-             BigDecimal valor, Categoria categoria, Usuario prorietario,
+             BigDecimal valor, Categoria categoria, Usuario vendedor,
              List<ProdutoCaracteristicaRequest> caracteristicas,
              LocalDateTime instanteCadastro) {
         this.id = id;
@@ -62,7 +62,7 @@ public class Produto {
         this.descricao = descricao;
         this.valor = valor;
         this.categoria = categoria;
-        this.prorietario = prorietario;
+        this.vendedor = vendedor;
         this.caracteristicas.addAll(caracteristicas
                 .stream().map(caracteristica -> caracteristica.toModel(this))
                 .collect(Collectors.toSet()));
@@ -95,8 +95,8 @@ public class Produto {
         return categoria;
     }
 
-    public Usuario getProrietario() {
-        return prorietario;
+    public Usuario getVendedor() {
+        return vendedor;
     }
 
     public LocalDateTime getInstanteCadastro() {
@@ -140,7 +140,7 @@ public class Produto {
     }
 
     public boolean pertenceAoUsuario(Usuario possivelProprietario) {
-        return this.prorietario.equals(possivelProprietario);
+        return this.vendedor.equals(possivelProprietario);
     }
 
     public double calcularMediaAritmetica() {

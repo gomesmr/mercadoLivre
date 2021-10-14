@@ -1,17 +1,12 @@
 package com.zup.mercado.produto.detalhes;
 
 import com.zup.mercado.categoria.Categoria;
-import com.zup.mercado.config.security.usuarios.Usuario;
-import com.zup.mercado.imagem.ImagemProduto;
 import com.zup.mercado.produto.Produto;
 import com.zup.mercado.utils.FormatarData;
 import com.zup.mercado.utils.FormatarNumero;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DetalhesProdutoResponse {
@@ -36,7 +31,7 @@ public class DetalhesProdutoResponse {
         Categoria cat = produto.getCategoria();
         this.categoria = cat.getCategoria();
 
-        this.prorietario = produto.getProrietario().getEmail();
+        this.prorietario = produto.getVendedor().getEmail();
 
         this.perguntas = produto.getPerguntas()
                 .stream()

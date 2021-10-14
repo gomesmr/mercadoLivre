@@ -65,35 +65,31 @@ public class Compra {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getIdentificador() {
-        return identificador;
-    }
-
-    public StatusCompra getStatus() {
-        return status;
+        return this.identificador;
     }
 
     public Gateway getGateway() {
-        return gateway;
+        return this.gateway;
     }
 
     public Produto getProduto() {
-        return produto;
+        return this.produto;
     }
 
     public int getQuantidade() {
-        return quantidade;
+        return this.quantidade;
     }
 
     public BigDecimal getValor() {
-        return valor;
+        return this.valor;
     }
 
-    public LocalDateTime getInstanteCompra() {
-        return instanteCompra;
+    public Usuario getComprador() {
+        return this.comprador;
     }
 
     public void controleEstoque(Produto produto, ProdutoRepository produtoRepository) {
@@ -111,9 +107,7 @@ public class Compra {
         /**
          * Busco dentre as transações concluidas, se já existe uma finalizada com sucesso
          */
-        Set<Transacao> transacoesConcluidasComSucesso = this.transacoes.stream()
-                .filter(Transacao :: concluidaComSucesso)
-                .collect(Collectors.toSet());
+        Set<Transacao> transacoesConcluidasComSucesso = transacoesConcluidasComSucesso();
 
         /**
          * Se esta lista não estiver vazia, interrompo o processamento
@@ -128,6 +122,19 @@ public class Compra {
         if (novaTransacao.getStatus().equals(StatusTransacao.sucesso)){
             this.status=StatusCompra.FINALIZADA;
         }
+    }
+
+    private Set<Transacao> transacoesConcluidasComSucesso() {
+        Set<Transacao> listaDeTransacoes = this.transacoes.stream()
+                .filter(Transacao :: concluidaComSucesso)
+                .collect(Collectors.toSet());
+        Assert.isTrue(listaDeTransacoes.size()<=1, "Existe mais que uma transação concluída com sucesso nesta compra "+this.identificador);
+
+        return listaDeTransacoes;
+    }
+
+    public boolean processadaComSucesso() {
+        return !transacoesConcluidasComSucesso().isEmpty();
     }
 
 }

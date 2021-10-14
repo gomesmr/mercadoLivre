@@ -103,16 +103,13 @@ public class Usuario implements UserDetails {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
-	public  LocalDateTime getDataHoraCadastro() {
-		return dataHoraCadastro;
-	}
 
 
 	@Override

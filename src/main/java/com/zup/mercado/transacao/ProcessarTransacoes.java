@@ -12,19 +12,16 @@ public class ProcessarTransacoes {
 
     @Autowired
     private Set<EventoTransacao> eventosTransacao;
-
     @Autowired
     private CompraRepository compraRepository;
 
     public void processaTransacao(Compra compra){
-        //verifica a lista de transações
-/*
-        if (compra.aprovada()) {
+        compraRepository.save(compra);
+        if (compra.processadaComSucesso()) {
             eventosTransacao.forEach(evento -> evento.processaTransacaoAprovada(compra));
-            compraRepository.save(compra);
         } else {
             eventosTransacao.forEach(evento -> evento.processaTransacaoRecusada(compra));
-        }*/
+        }
     }
 
 }
