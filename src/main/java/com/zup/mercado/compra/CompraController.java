@@ -44,6 +44,7 @@ public class CompraController {
         }
 
         Compra compra = request.toModel(produto, comprador);
+
         //Abate estoque
         compra.controleEstoque(produto, produtoRepository);
         compraRepository.save(compra);

@@ -100,6 +100,7 @@ public class Compra {
 
 //Alberto code
     public void adicionaTransacao(RetornoGatewayPagamento request) {
+
         Transacao novaTransacao = request.toModel(this);
         //não é permitido transação com succeso com o mesmo idTransacao
         Assert.isTrue(!this.transacoes.contains(novaTransacao), "Já existe uma transação igual a essa processada "+novaTransacao.toString());

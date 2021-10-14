@@ -3,6 +3,7 @@ package com.zup.mercado.compra;
 import com.zup.mercado.config.security.usuarios.Usuario;
 import com.zup.mercado.gateway.Gateway;
 import com.zup.mercado.produto.Produto;
+import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,8 @@ public class CompraRequest {
 
     public Compra toModel(Produto produto, Usuario comprador) {
         Compra novaCompra = new Compra(gateway, produto, quantidade, valor, comprador);
+        //Verifica se o id do comprador != id do vendedor
+        Assert.isTrue(!novaCompra.getComprador().getId().equals(produto.getVendedor().getId()), "Você não pode comprar um produto de si mesmo");
         return novaCompra;
     }
 
